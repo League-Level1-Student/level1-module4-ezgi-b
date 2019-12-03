@@ -6,6 +6,7 @@ package _02_simon_says;
  */
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import java.io.IOException;
 
 public class SimonSays extends KeyAdapter {
@@ -27,11 +30,23 @@ public class SimonSays extends KeyAdapter {
 	private int tries = 0;
 	private boolean simonSays = false;
 	Date timeAtStart;
+	JFrame frame;
 
 	// Complete steps 1 - 7 before you test
 	// 1. Declare a JFrame variable
 
 	public void run() {
+		
+		
+		images.put(new Integer(KeyEvent.VK_UP), "up.jpg");
+		images.put(new Integer(KeyEvent.VK_LEFT), "left.jpg");
+		images.put(new Integer(KeyEvent.VK_RIGHT), "right.jpg");
+		images.put(new Integer(KeyEvent.VK_DOWN), "down.jpg");
+		
+		JOptionPane.showMessageDialog(null, "Press the matching key when 'Simon says' to. Otherwise press a different key.");
+
+
+		
 		// 2. Add the four images that match keyboard keys like this:
 		// images.put(new Integer(KeyEvent.VK_UP), "up.jpg");
 
@@ -40,6 +55,7 @@ public class SimonSays extends KeyAdapter {
 		// 'Simon says' otherwise press a different key"
 
 		// 4. Call the showImage method to show an image
+		showImage();
 
 	}
 
@@ -73,6 +89,12 @@ public class SimonSays extends KeyAdapter {
 	}
 
 	private void showImage() {
+		frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(3);
+		frame.add(getNextRandomImage());
+		frame.pack();
+		
 		// 5. Initialize your frame to a new JFrame()
 
 		// 6. Set the frame to visible
