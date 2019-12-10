@@ -58,8 +58,30 @@ public class SimonSays extends KeyAdapter {
 		showImage();
 
 	}
-
+	int points = 0;
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==imageIndex&&simonSays==true) {
+			points++;
+			this.speak("You are correct!!!!");
+		}
+		if(e.getKeyCode()!=imageIndex&&simonSays==false) {
+			points++;
+			this.speak("You are correct!!!!");
+		}
+		if(e.getKeyCode()==imageIndex&&simonSays==false) {
+			points--;
+			this.speak("You are wrong!!!!");
+		}
+		if(e.getKeyCode()!=imageIndex&&simonSays==true) {
+			points--;
+			this.speak("You are wrong!!!!");
+		}
+		
+		JOptionPane.showMessageDialog(null, "Your score is " + points + "!");
+		
+		frame.dispose();
+		showImage();
+		
 		// 15. Make a points variable to track the score.
 
 		// 16. If the keyCode matches the imageIndex and "Simon says"
@@ -87,14 +109,34 @@ public class SimonSays extends KeyAdapter {
 
 		// 24. Call the showImage method to show a new image
 	}
-
+	int key;
 	private void showImage() {
-		frame = new JFrame();
+		frame = new JFrame("Simon Says!!!!!!");
+		frame.addKeyListener(this);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(3);
-		frame.add(getNextRandomImage());
+		key=this.rand();
+		frame.add(getNextImage(key));
 		frame.pack();
-		
+		String question = new String();
+		if(key==0) {
+			question="left key.";
+		}else if(key==1) {
+			question="up key.";
+		}else if(key==2) {
+			question="right key.";
+		}else if(key==3) {
+			question="down key.";
+		}
+		int rand;
+		rand = new Random().nextInt(2);
+		if(rand==0) {
+			this.speak("Press the " + question);
+			simonSays = false;
+		}else if(rand==1) {
+			this.speak("Simon says, press the " + question);
+			simonSays = true;
+		}
 		// 5. Initialize your frame to a new JFrame()
 
 		// 6. Set the frame to visible
@@ -119,12 +161,14 @@ public class SimonSays extends KeyAdapter {
 		// 14. Above, set the value of simonSays to true/false appropriately
 
 	}
-
-	private Component getNextRandomImage() {
-		this.imageIndex = new Random().nextInt(4) + 37;
+	public int rand() {
+		return new Random().nextInt(4);
+	}
+	private Component getNextImage(int i) {
+		this.imageIndex = i + 37;
 		return loadImage(images.get(imageIndex));
 	}
-
+	
 	private JLabel loadImage(String fileName) {
 		URL imageURL = getClass().getResource(fileName);
 		Icon icon = new ImageIcon(imageURL);
