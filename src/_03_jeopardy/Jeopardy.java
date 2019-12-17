@@ -37,18 +37,37 @@ public class Jeopardy implements ActionListener {
 	private JButton thirdButton, fourthButton;
 	private JPanel quizPanel;
 	private int score = 0;
-	private JLabel scoreBox = new JLabel("0");
+	private JLabel scoreBox = new JLabel("$0");
 	private int buttonCount = 0;
 	private AudioClip sound;
 
 
-
+	
 	public void run() {
 		JFrame frame = new JFrame("Jeopardy!!!");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		quizPanel = new JPanel();
 		frame.setLayout(new BorderLayout());
 		frame.setVisible(true);
+		JPanel headerPanel = createHeader("Jeopardy");
+		quizPanel.add(headerPanel);
+		firstButton = createButton("$200");
+		firstButton.addActionListener(this);
+		quizPanel.add(firstButton);
+		
+		secondButton = createButton("$400");
+		secondButton.addActionListener(this);
+		quizPanel.add(secondButton);
+		
+		thirdButton = createButton("$600");
+		thirdButton.addActionListener(this);
+		quizPanel.add(thirdButton);
+		
+		fourthButton = createButton("$800");
+		fourthButton.addActionListener(this);
+		quizPanel.add(fourthButton);
+		
+		frame.add(quizPanel);
 
 		// 1. Make the frame show up
 
@@ -92,6 +111,8 @@ public class Jeopardy implements ActionListener {
 
 
 	private JButton createButton(String dollarAmount) {
+		JButton button = new JButton(dollarAmount);
+		buttonCount++;
 		
 		// Create a new JButton
 
@@ -101,15 +122,37 @@ public class Jeopardy implements ActionListener {
 
 		// Return your new button instead of the temporary button
 
-		return new JButton("temporary button");
+		return button;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		
 		// Remove this temporary message after testing:
-		JOptionPane.showMessageDialog(null, "pressed " + ((JButton) e.getSource()).getText() + " button");
+		
 
 		JButton buttonPressed = (JButton) e.getSource();
+		if(buttonPressed==firstButton){
+			askQuestion("What is the name of the Animorph who got stuck as a red-tailed hawk?",  "Tobias", 200);
+			quizPanel.remove(firstButton);
+			buttonCount--;
+		}
+		if(buttonPressed==secondButton){
+			askQuestion("What is the name of Harry Potter's father?",  "James Potter", 400);
+			quizPanel.remove(secondButton);
+			buttonCount--;
+		}
+		if(buttonPressed==thirdButton){
+			askQuestion("What is the name of Norman Osborn's son?",  "Harry Osborn", 600);
+			quizPanel.remove(thirdButton);
+			buttonCount--;
+		}
+		if(buttonPressed==fourthButton){
+			askQuestion("Is 'Baby Yoda' actually Baby Yoda?",  "No", 800);
+			quizPanel.remove(fourthButton);
+			buttonCount--;
+		}
+		
+		quizPanel.setLayout(new GridLayout(buttonCount + 1, 3));
 		// If the buttonPressed was the firstButton
 
 			// Call the askQuestion() method
@@ -129,8 +172,20 @@ public class Jeopardy implements ActionListener {
 		// Use the playJeopardyTheme() method to play music while the use thinks of an answer
 		
 		// Remove this temporary message and replace it with a pop-up that asks the user the question
-		JOptionPane.showMessageDialog(null, "this is where the question will be asked");
 		
+		playJeopardyTheme();
+		
+		if(JOptionPane.showInputDialog(question).equals(correctAnswer)) {
+			sound.stop();
+			score+=prizeMoney;
+			JOptionPane.showMessageDialog(null, "You are correct!");
+		}else {
+			sound.stop();
+			score-=prizeMoney;
+			JOptionPane.showMessageDialog(null, "You are incorrect. :(");
+		}
+		
+		updateScore();
 		// Stop the theme music when they have entered their response. Hint: use the sound variable 
 		
 		// If the answer is correct
@@ -168,7 +223,7 @@ public class Jeopardy implements ActionListener {
 	}
 
 	private void updateScore() {
-		scoreBox.setText("" + score);
+		scoreBox.setText("$" + score);
 	}
 
 	private JPanel createHeader(String topicName) {
