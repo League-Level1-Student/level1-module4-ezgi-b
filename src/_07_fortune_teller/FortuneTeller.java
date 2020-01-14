@@ -26,6 +26,7 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
 
     int frameWidth = 1280;
     int frameHeight = 940;
+    
 
     FortuneTeller() throws Exception {
    	 // 1. Choose an image for your fortune teller and put it in your default package
@@ -42,14 +43,57 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
     public void mousePressed(MouseEvent e) {
    	 int mouseX = e.getX();
    	 int mouseY = e.getY();
+   	 System.out.println("("+mouseX+", "+mouseY+")");
+   	 
    	 // 5. Print the mouseX variable
 
    	 // 6. Add the mouseY variable to the previous line so that it prints out too (no new line)
    	 // 7. Adjust your secret location co-ordinates here:
-   	 int secretLocationX = 0;
-   	 int secretLocationY = 0;
+   	 int secretLocationX = 598;
+   	 int secretLocationY = 460;
    	 /** If the mouse co-ordinates and secret location are close, we'll let them ask a question. */
    	 if (areClose(mouseX, secretLocationX) && areClose(mouseY, secretLocationY)) {
+   		 JOptionPane.showInputDialog("What is your question?");
+   		 AudioClip sound = JApplet.newAudioClip(getClass().getResource("creepy-noise.wav"));
+   		 sound.play();
+   		 pause(2);
+   		 
+   		 
+   		int rand = new Random().nextInt(15);
+		System.out.println(rand);
+		if(rand==0) {
+			JOptionPane.showMessageDialog(null, "You will have 9 children-three sets of identical triplets.");
+		} else if(rand==1) {
+			JOptionPane.showMessageDialog(null, "You will live long and prosper.");
+		} else if(rand==2) {
+			JOptionPane.showMessageDialog(null, "Maybe you should ask Google.");
+		} else if(rand==3) {
+			JOptionPane.showMessageDialog(null, "Why should I answer your question?");
+		} else if(rand==4) {
+			JOptionPane.showMessageDialog(null, "Neither can live while the other survives.");
+		} else if(rand==5) {
+			JOptionPane.showMessageDialog(null, "You're a Slytherin?");
+		} else if(rand==6) {
+			JOptionPane.showMessageDialog(null, ".....No Comment.....");
+		} else if(rand==7) {
+			JOptionPane.showMessageDialog(null, "What is your favorite color M&M?");
+		} else if(rand==8) {
+			JOptionPane.showMessageDialog(null, "Of course!");
+		} else if(rand==9) {
+			JOptionPane.showMessageDialog(null, "Do you wanna build a snowman? You seem lonely.");
+		} else if(rand==10) {
+			JOptionPane.showMessageDialog(null, "The ways of the fortuneteller are not for you to know!");
+		} else if(rand==11) {
+			JOptionPane.showMessageDialog(null, "YOU'VE BEEN CHEATING ON ME!");
+		} else if(rand==12) {
+			JOptionPane.showMessageDialog(null, "Have a nice day Tom Riddle.");
+		} else if(rand==13) {
+			JOptionPane.showMessageDialog(null, "The answer to that question is too complex for your simple mind.");
+		} else if(rand==14) {
+			JOptionPane.showMessageDialog(null, "It was alllll a drrrreeeeaaaammmmm.");
+		}
+		
+		
    		 // 8. Get the user to enter a question for the fortune teller
 
    		 // 9. Find a spooky sound and put it in your default package (freesound.org)
@@ -90,6 +134,7 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    	 frame.setResizable(false);
    	 frame.setVisible(true);
+   	 frame.addMouseListener(this);
     }
 
 private void showAnotherImage(String imageName) {
